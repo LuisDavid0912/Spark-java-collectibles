@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ramoncollectibles</groupId>
+    <artifactId>spark-collectibles-api</artifactId> <!-- Nombre correcto -->
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source> <!-- Java 17 -->
+        <maven.compiler.target>17</maven.compiler.target> <!-- Java 17 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spark.version>2.9.4</spark.version>
+        <gson.version>2.10.1</gson.version>
+        <logback.version>1.4.14</logback.version>
+        <slf4j.version>2.0.9</slf4j.version>
+    </properties>
+
+    <dependencies>
+        <!-- Spark Framework -->
+        <dependency>
+            <groupId>com.sparkjava</groupId>
+            <artifactId>spark-core</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+
+        <!-- Gson (JSON Handling) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
+        <!-- Logback (Logging) -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Plugin de Compilador -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version> <!-- Asegúrate que la versión sea consistente si usaste otra -->
+                 <configuration>
+                    <source>17</source> <!-- Añadido para asegurar Java 17 -->
+                    <target>17</target> <!-- Añadido para asegurar Java 17 -->
+                 </configuration>
+            </plugin>
+            <!-- Plugin Shade para crear JAR ejecutable con dependencias -->
+            <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-shade-plugin</artifactId>
+                 <version>3.2.4</version>
+                 <executions>
+                     <execution>
+                         <phase>package</phase>
+                         <goals>
+                             <goal>shade</goal>
+                         </goals>
+                         <configuration>
+                             <transformers>
+                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                     <mainClass>com.ramoncollectibles.Main</mainClass> <!-- Clase principal correcta -->
+                                 </transformer>
+                             </transformers>
+                             <filters>
+                                 <filter>
+                                     <artifact>*:*</artifact>
+                                     <excludes>
+                                         <exclude>META-INF/*.SF</exclude>
+                                         <exclude>META-INF/*.DSA</exclude>
+                                         <exclude>META-INF/*.RSA</exclude>
+                                     </excludes>
+                                 </filter>
+                             </filters>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
+        </plugins>
+    </build>
+
+</project>
